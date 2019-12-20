@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %} Home Page {% endblock %}
+
+{% block contents %}
+
+{% if messages %}
+{% for message in messages %}
+
+<div class="alert alert-warning alert-dismissable" role="alert">
+    <button class="close" data-dismiss='alert'>
+        <small><sup></sup></small>
+    </button>
+    {{ message }}
+</div>
+
+{% endfor %}
+{% endif %}
+
+{% if all_items %}
+<br>
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <!-- <th scope="col">S.No</th> -->
+            <th scope="col">
+                <center>Item To-Do</center>
+            </th>
+            <th scope="col">
+                <center>Checked</center>
+            </th>
+            <th scope="col">
+                <center>Action</center>
+            </th>
+        </tr>
+    </thead>
+
+    {% for things in all_items %}
+
+    <tbody>
+        {% if things.completed %}
+        <tr class="table.secondary">
+            <!-- <th scope="row">{{ things.id }}</th> -->
+            <td class="striker">
+                <center><a href="{% url 'edit' things.id %}">{{ things.item }}</a></center>
+            </td>
+            <td>
+                <center><a href="{% url 'uncross' things.id %}">Uncross</a></center>
+            </td>
+            <td>
+                <center><a href="{% url 'delete' things.id %}">delete</a></center>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <!-- <th scope="row">{{ things.id }}</th> -->
+            <td>
+                <center><a href="{% url 'edit' things.id %}">{{ things.item }}</a></center>
+            </td>
+            <td>
+                <center><a href="{% url 'cross_off' things.id %}">Cross Off</a></center>
+            </td>
+            <td>
+                <center><a href="{% url 'delete' things.id %}">delete</a></center>
+            </td>
+        </tr>
+        {% endif %}
+    </tbody>
+
+    {% endfor %}
+</table>
+
+{% endif %}
+
+{% endblock %}
